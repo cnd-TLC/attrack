@@ -101,7 +101,7 @@
     setAuthHeader();
 
     try {
-      const response = await axios.post('https://script.google.com/macros/s/AKfycbxknif5au1D0uaMLldHsp14N0PyK7U1DMO9nPquoMD2P_6RmtRKT_ya7CT7mtSmxVu7/exec', {
+      const response = await axios.post('https://script.google.com/macros/s/AKfycbw4p79ThfdKYZobY9jB4Simc4D_2HyrQBJD2-xtqrfLyUP7Sns2Nd684uR1HlZLyv4r/exec', {
             studentId: idNumber.value,
             day: day.value
       });
