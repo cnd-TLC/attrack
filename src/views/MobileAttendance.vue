@@ -71,11 +71,13 @@
 
   let captureInterval = null;
   let password = ref("goldendawn");
-  let passcode = prompt("Enter Password");
+  let passcode = "";
 
   const router = useRouter();
 
   const passcodeProtect = () => {
+    passcode = prompt("Enter Password");
+
     if (passcode === null){
       router.push({ name: 'home' });
       return;
@@ -94,8 +96,8 @@
 
     navigator.mediaDevices.getUserMedia({ video: {
         facingMode: "environment",
-        width: { ideal: 720 }, // Increase resolution for better quality
-        height: { ideal: 1280 }
+        width: 720, // Increase resolution for better quality
+        height: 1280
       } })
       .then((stream) => {
         video.srcObject = stream;
@@ -258,7 +260,7 @@
     if (matches && extracting.value)
       setPresent(`studentId=${matches[0]}&day=${selectedDay.value + 2}`);
     else
-      console.log("none")
+      console.log("No ID matched")
   };
 
   // Change selected day
@@ -289,6 +291,7 @@
 .center {
   display: flex;
 /*  justify-content: center;*/
+  height: 100vh !important;
   align-items: center;
   position: relative;
   height: 100%;
