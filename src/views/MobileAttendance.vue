@@ -224,7 +224,7 @@
           else
             Swal.fire({
               title: "Oops...",
-              text: "Something went wrong, try again",
+              text: idNumber.value,
               icon: "error"
             });
           idNumber.value = "No ID found";
