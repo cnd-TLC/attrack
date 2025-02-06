@@ -96,8 +96,8 @@
 
     navigator.mediaDevices.getUserMedia({ video: {
         facingMode: "environment",
-        width: 720, // Increase resolution for better quality
-        height: 1280
+        // width: 720, // Increase resolution for better quality
+        // height: 1280
       } })
       .then((stream) => {
         video.srcObject = stream;
@@ -290,14 +290,14 @@
 /* Container Style */
 .center {
   display: flex;
-/*  justify-content: center;*/
+  justify-content: center;
   height: 100vh !important;
   align-items: center;
   position: relative;
   height: 100%;
   width: 100%;
-  overflow: hidden;  /* Prevent scrolling */
-  flex-direction: column;  /* Stack elements vertically */
+  overflow: hidden; /* Prevent scrolling */
+  flex-direction: column; /* Stack elements vertically */
 }
 
 .logo-overlay {
@@ -342,160 +342,128 @@
 }
 
 
-/* Fade-in animation */
-@keyframes fadeIn {
-  to {
-    opacity: 1;
-  }
-}
-
 /* Video and Canvas Styling */
 .video-container {
-  position: relative;
+  position: absolute; /* Make the video container take up the entire screen */
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto; 
-  border-radius: 8px;
-  max-width: 90%; /* Max width 90% of the container */
-  max-height: 80vh; /* Max height 80% of the viewport */
+  height: 100%;
+  object-fit: cover; /* Ensure the video fills the screen without stretching */
+  z-index: 1;
 }
 
+/* Horizontal Rectangle */
 .center-rectangle {
   position: absolute;
-  top: 50%;
+  top: 40%;
   left: 50%;
-  width: 60%;
-  height: 20%;
+  width: 50%;
+  height: 65%;
   transform: translate(-50%, -50%);
   border-radius: 15px;
+  background-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  z-index: 2; /* Ensure the rectangle stays above the video */
 }
 
 .clear-inside {
-  /*height: 100%;
-  width: 100%;*/
+  height: 100%;
+  width: 100%;
 }
 
-/* Button Styles */
+
+/* Capture Info and Buttons - Positioning inside the screen */
 .capture-info {
+  position: absolute; /* Absolute position inside the screen */
+  bottom: 10%; /* Place buttons near the bottom */
+  width: 100%;
   text-align: center;
-  margin-top: 20px;
-}
-
-.id-number {
-  font-size: 6vw; /* Responsive font size */
-  color: #352011;
-  font-weight: bold;
-}
-
-.status-text {
-  font-size: 4vw; /* Responsive font size */
-  color: #7d6a5f; /* Medium brown for text */
+  z-index: 3; /* Ensure buttons are on top of the video */
 }
 
 .day-buttons {
   display: flex;
   justify-content: center;
-  gap: 10px; /* Reduced gap to fit within small screens */
+  gap: 10px;
   margin: 15px 0;
-  flex-wrap: wrap; /* Allows wrapping on smaller screens */
+  flex-wrap: wrap;
 }
 
 .btn {
-  background-color: #e7c8b2; /* Light brown background */
-  color: #352011; /* Dark brown text */
+  background-color: #e7c8b2;
+  color: #352011;
   border: none;
   padding: 10px 20px;
-  font-size: 4vw; /* Responsive font size */
+  font-size: 4vw;
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .btn:hover {
-  background-color: #c8a082; /* Darker brown on hover */
+  background-color: #c8a082;
 }
 
 .selected-btn {
-  background-color: #f0b773; /* Golden yellow background for selected day */
+  background-color: #f0b773;
   color: white;
 }
 
 .stop-btn {
-  width: 100%;
   background-color: #f37878;
   color: white;
 }
 
 .start-btn {
-  width: 100%;
   background-color: #78f3a5;
   color: white;
 }
 
 /* Media Queries */
-@media (max-width: 768px) {
-  .logo img {
-    width: 20vw; /* Adjust for smaller screen */
-  }
-
+@media (max-width: 630px) {
   .video-container {
-    max-width: 95%;
-    max-height: 70vh;
+    width: 100%;
+    height: 100%;
   }
 
   .center-rectangle {
     width: 60%;
-    height: 20%;
+    height: 65%;
   }
 
   .id-number {
-    font-size: 8vw; /* Larger text for smaller screens */
+    font-size: 8vw;
   }
 
   .status-text {
-    font-size: 5vw; /* Larger text for smaller screens */
+    font-size: 5vw;
   }
 
   .btn {
-    font-size: 5vw; /* Larger buttons on smaller screens */
+    font-size: 5vw;
     padding: 12px 24px;
-/*    width: 100%;*/
   }
 }
 
-/*@media (max-width: 615px) {
-  .btn {
-    width: 100%;
-  }
-}*/
-
 @media (max-width: 480px) {
-  .logo img {
-    width: 25vw; /* Even smaller logo on very small screens */
-  }
-
   .video-container {
-    max-width: 100%;
-    max-height: 60vh;
+    width: 100%;
+    height: 100%;
   }
 
   .center-rectangle {
     width: 80%;
-    height: 20%;
+    height: 60%;
   }
 
   .id-number {
-    font-size: 10vw; /* Adjust text for smaller screens */
+    font-size: 10vw;
   }
 
   .status-text {
-    font-size: 6vw; /* Adjust text for smaller screens */
+    font-size: 6vw;
   }
-
-  /*.btn {
-    font-size: 6vw; 
-    padding: 15px 30px;
-    width: 100%;
-  }*/
 }
+
 </style>
