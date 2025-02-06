@@ -1,5 +1,8 @@
-ID Generation API
-https://script.google.com/macros/s/AKfycbx_ouBxu0ihzBnkTZaCJSM9Qu74dQvlg3gv-XsV2NQJl-Hz5xmxXSISw7f039FTJr2c/exec
-
 Set Present API
 https://script.google.com/macros/s/AKfycbwibs6LjDrAkm1Uta8l9X9muHocRDahcE9p5tZsuXNpfuGNdXnUcKJ1cfl_ZxEF_c2R/exec
+
+Set ID API
+https://script.google.com/macros/s/AKfycbwqBLaCXBSZIgVHXqdrxlZglu7CEvQx76WuB3Uppbm1dMuZ7LRyfwnWUgWCxGenkSRc/exec
+
+Retrieve Records API
+https://script.google.com/macros/s/AKfycbxlmbJTSnToC6cdnUm3z7p1EymXm4LnKvUlnTEMqzTp61USOWvLNtSUSFrZzIXf57Qe/exec

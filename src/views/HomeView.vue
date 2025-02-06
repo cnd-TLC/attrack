@@ -19,7 +19,7 @@
 
     <!-- Footer Section -->
     <footer class="footer">
-      <p>© 2025 Golden Dawn</p>
+      <p>© 2025 Team 4 Golden Dawn</p>
     </footer>
   </div>
 </template>
