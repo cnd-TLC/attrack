@@ -45,6 +45,10 @@
         <option value="Fourth Year">Fourth Year</option>
       </select>
     </div>
+    <div class="buttons">
+      <button class="btn">Add ID</button>
+    </div>
+
 
     <table class="student-table">
       <thead>
@@ -160,10 +164,10 @@ onMounted(() => {
 .filter-select {
   padding: 12px 16px;
   font-size: 1rem;
-  border-radius: 8px;
+  border-radius: 5px;
   border: 1px solid #ccc;
   width: 100%;
-  max-width: 220px;
+/*  max-width: 220px;*/
   transition: all 0.3s ease;
   background-color: #fff;
 }
@@ -175,12 +179,27 @@ onMounted(() => {
   box-shadow: 0 0 5px rgba(120, 243, 165, 0.5); /* Subtle focus shadow */
 }
 
+.btn {
+  background-color: #e7c8b2;
+  color: #352011;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #c8a082;
+}
+
 /* Table Styles */
 .student-table {
   width: 100%;
   margin-top: 20px;
   border-collapse: collapse;
-  border-radius: 8px;
+  border-radius: 5px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow around table */
 }
@@ -301,14 +320,18 @@ onMounted(() => {
 }
 
 .pagination-controls button {
-  background-color: #e7c8b2; /* Light brown background */
-  color: #352011; /* Dark brown text */
+  background-color: #e7c8b2;
+  color: #352011;
   border: none;
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.pagination-controls button:hover {
+  background-color: #c8a082;
 }
 
 .pagination-controls button:disabled {

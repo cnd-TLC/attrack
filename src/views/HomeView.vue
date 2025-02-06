@@ -86,7 +86,7 @@
   border: none;
   padding: 10px 20px;
   font-size: 1.1rem; /* Responsive font size */
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
   font-weight: 500;

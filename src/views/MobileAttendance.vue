@@ -61,7 +61,7 @@
   const selectedDay = ref(1); // Track the selected day
 
   const extracting = ref(false);
-  const captureRendering = ref(true);
+  const captureRendering = ref(false);
 
   const days = ref([
     { id: 1, name: 'Day 1' },
@@ -361,7 +361,7 @@
   width: 50%;
   height: 65%;
   transform: translate(-50%, -50%);
-  border-radius: 15px;
+  border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   z-index: 2; /* Ensure the rectangle stays above the video */
@@ -396,7 +396,7 @@
   border: none;
   padding: 10px 20px;
   font-size: 4vw;
-  border-radius: 8px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
