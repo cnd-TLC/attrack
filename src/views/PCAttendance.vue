@@ -7,11 +7,9 @@
       <button @click="submit">Submit</button>
     </div>
 
-    <!-- Right side: Pre-allocated space for the result -->
-    <div class="right-side">
-      <div v-if="submitted">
-        {{ result }} is marked as present
-      </div>
+    <!-- Right side: Result -->
+    <div class="right-side" v-if="submitted">
+      {{ result }} is marked as present
     </div>
   </div>
 </template>
@@ -54,7 +52,6 @@ export default {
   align-items: center;
   justify-content: center;
   width: 40%;
-  min-height: 60px; /* Ensures space for the result text is always there */
 }
 
 input {

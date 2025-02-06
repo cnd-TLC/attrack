@@ -1,5 +1,7 @@
 <template>
   <div class="center">
+    <button class="floating-btn" @click="goToHome">🏠︎</button>
+
     <!-- Logo -->
     <div v-if="captureRendering" class="logo-overlay">
       <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/e8ddc4da-23dd-4502-b65b-378c9cfe5efa/dfh9koj-efa07e64-9d87-4efd-ae56-0a92b3ce0fec.png/v1/fill/w_1280,h_1280/golden_dawn_insignia_by_jormxdos_dfh9koj-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTI4MCIsInBhdGgiOiJcL2ZcL2U4ZGRjNGRhLTIzZGQtNDUwMi1iNjViLTM3OGM5Y2ZlNWVmYVwvZGZoOWtvai1lZmEwN2U2NC05ZDg3LTRlZmQtYWU1Ni0wYTkyYjNjZTBmZWMucG5nIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.HXKNwvwyq7Omc_Njx-z07SsuWXeik_8VFe6CvuW0sC8" alt="Golden Dawn Logo" />
@@ -48,7 +50,7 @@
 </template>
 
 <script setup>
-  import { ref, onMounted, onUnmounted } from 'vue';
+  import { ref, onMounted, onBeforeUnmount } from 'vue';
   import { useRouter } from 'vue-router';
   import Tesseract from 'tesseract.js';
   import axios from 'axios';
@@ -74,6 +76,10 @@
   let passcode = "";
 
   const router = useRouter();
+
+  const goToHome = () => {
+    router.push({ name: 'home' });
+  }
 
   const passcodeProtect = () => {
     passcode = prompt("Enter Password");
@@ -269,7 +275,7 @@
   };
 
   // Cleanup when the component is unmounted
-  onUnmounted(() => {
+  onBeforeUnmount(() => {
     if (passcode !== null){
       if (captureInterval) {
         clearInterval(captureInterval);
@@ -298,6 +304,33 @@
   width: 100%;
   overflow: hidden; /* Prevent scrolling */
   flex-direction: column; /* Stack elements vertically */
+}
+
+/* Floating Button Styles */
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #f0b773; /* Golden Yellow */
+  color: #352011; /* Dark Brown */
+  border: none;
+  padding: 10px;
+  font-size: 1rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: background-color 0.3s ease;
+  z-index: 100; /* Ensure the button is on top of other content */
+}
+
+.floating-btn:hover {
+  background-color: #c8a082; /* Darker Golden Yellow */
+}
+
+.floating-btn:focus {
+  outline: none;
 }
 
 .logo-overlay {

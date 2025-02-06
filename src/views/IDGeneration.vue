@@ -1,6 +1,6 @@
 <template>
   <div class="student-page">
-    
+    <button class="floating-btn" @click="goToHome">🏠︎</button>
 
     <div class="filters-container">
       <!-- Search input -->
@@ -118,6 +118,9 @@
   import { ref, computed, onMounted } from 'vue';
   import axios from 'axios';
   import Swal from 'sweetalert2'
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
 
   const searchQuery = ref('');
   const selectedGender = ref('');
@@ -149,6 +152,11 @@
       return matchesSearch && matchesGender && matchesCourse && matchesYear;
     });
   });
+
+  const goToHome = () => {
+    router.push({ name: 'home' });
+    return;
+  }
 
   const setAuthHeader = () => {
     axios.defaults.headers.common['Content-Type'] = 'text/plain;charset=utf-8';
@@ -255,6 +263,33 @@
   background-color: #fff;
   padding: 20px;
   font-family: 'Arial', sans-serif;
+}
+
+/* Floating Button Styles */
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #f0b773; /* Golden Yellow */
+  color: #352011; /* Dark Brown */
+  border: none;
+  padding: 10px;
+  font-size: 1rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: background-color 0.3s ease;
+  z-index: 100; /* Ensure the button is on top of other content */
+}
+
+.floating-btn:hover {
+  background-color: #c8a082; /* Darker Golden Yellow */
+}
+
+.floating-btn:focus {
+  outline: none;
 }
 
 .available {
@@ -572,6 +607,10 @@
 @media (max-width: 480px) {
   .filters-container {
     flex-direction: column;
+  }
+
+  .modal-content {
+    margin: 0px 20px;
   }
 
   .search-input,

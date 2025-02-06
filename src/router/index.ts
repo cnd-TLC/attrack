@@ -14,6 +14,11 @@ const router = createRouter({
       component: () => import('@/views/MobileAttendance.vue'),
     },
     {
+      path: '/pc',
+      name: 'pc',
+      component: () => import('@/views/PCAttendance.vue'),
+    },
+    {
       path: '/generate-id',
       name: 'generate',
       component: () => import('@/views/IDGeneration.vue'),
