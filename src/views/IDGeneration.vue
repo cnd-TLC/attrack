@@ -139,7 +139,7 @@ onMounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  min-height: 100vh;
+  height: 100vh !important;
   background-color: #fff;
   padding: 20px;
   font-family: 'Arial', sans-serif;
@@ -236,7 +236,7 @@ onMounted(() => {
 }
 
 .logo-overlay img {
-  max-width: 11%;
+  max-width: 20%;
   height: auto;
 }
 

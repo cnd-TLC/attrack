@@ -61,7 +61,7 @@
   const selectedDay = ref(1); // Track the selected day
 
   const extracting = ref(false);
-  const captureRendering = ref(false);
+  const captureRendering = ref(true);
 
   const days = ref([
     { id: 1, name: 'Day 1' },
