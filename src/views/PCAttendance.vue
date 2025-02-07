@@ -1,5 +1,7 @@
 <template>
   <div class="container">
+    <button class="floating-btn" @click="goToHome">🏠︎</button>
+    
     <!-- Left Container: C-<input>-<input> layout with submit button -->
     <div class="input-container">
       <div class="id-input-container">
@@ -36,8 +38,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const studentIdYear = ref('');
 const studentIdNumber = ref('');
@@ -50,9 +55,31 @@ const days = ref([
   { id: 3, name: 'Day 3' },
 ]);
 
+let password = ref("goldendawn");
+let passcode = "";
+
 const setAuthHeader = () => {
   axios.defaults.headers.common['Content-Type'] = 'text/plain;charset=utf-8';
 };
+
+const passcodeProtect = () => {
+  passcode = prompt("Enter Password");
+
+  if (passcode === null){
+    router.push({ name: 'home' });
+    return;
+  }
+
+  while (passcode !== password.value) {
+      alert("Incorrect Password");
+      return passcodeProtect();
+  }
+}
+
+const goToHome = () => {
+  router.push({ name: 'home' });
+  return;
+} 
 
 const selectDay = (dayId) => {
   selectedDay.value = dayId;
@@ -79,6 +106,10 @@ const setPresent = async () => {
     savingId.value = false;
   }
 };
+
+onMounted(() => {
+  passcodeProtect();
+});
 </script>
 
 <style scoped>
@@ -92,6 +123,33 @@ const setPresent = async () => {
   background-color: #fff; /* Soft background */
   height: 100vh;
   align-items: center; /* Vertically center the whole container */
+}
+
+/* Floating Button Styles */
+.floating-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #f0b773; /* Golden Yellow */
+  color: #352011; /* Dark Brown */
+  border: none;
+  padding: 10px;
+  font-size: 1rem;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow */
+  transition: background-color 0.3s ease;
+  z-index: 100; /* Ensure the button is on top of other content */
+}
+
+.floating-btn:hover {
+  background-color: #c8a082; /* Darker Golden Yellow */
+}
+
+.floating-btn:focus {
+  outline: none;
 }
 
 /* Left Container (Input + Submit Button) */
