@@ -37,7 +37,6 @@
       </div>
 
       <div class="buttons">
-        {{ idNumber.value }}
         <button @click="stopAutoCapture" v-if="isCapturing" class="btn stop-btn">
           <i class="fas fa-stop-circle"></i> Stop Auto Capture
         </button>
@@ -233,16 +232,13 @@
               text: "Something went wrong, try again",
               icon: "error"
             });
-          idNumber.value = "No ID found";
           captureRendering.value = false;
         })
         .catch((err) => {
-          idNumber.value = "No ID found";
           captureRendering.value = false;
         });
     } catch (error) {
       console.error('Error marking student present:', error);
-      idNumber.value = "No ID found";
       captureRendering.value = false;
     }
   };

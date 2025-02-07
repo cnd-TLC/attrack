@@ -1,74 +1,284 @@
 <template>
   <div class="container">
-    <!-- Left side: Inputs and Submit Button -->
-    <div class="left-side">
-      <input v-model="input1" placeholder="Input 1" />
-      <input v-model="input2" placeholder="Input 2" />
-      <button @click="submit">Submit</button>
+    <!-- Left Container: C-<input>-<input> layout with submit button -->
+    <div class="input-container">
+      <div class="id-input-container">
+        <label class="id-label" for="studentIdYear">C</label>
+        <label class="id-label" for="studentIdYear">-</label>
+        <input class="id-input-box" v-model="studentIdYear" type="text" id="studentIdYear" placeholder="####" />
+        <label class="id-label" for="studentIdNumber">-</label>
+        <input class="id-input-box" v-model="studentIdNumber" type="text" id="studentIdNumber" placeholder="####" />
+      </div>
+      <div class="day-buttons">
+        <button
+          v-for="dayOption in days"
+          :key="dayOption.id"
+          :class="['btn', selectedDay === dayOption.id ? 'selected-btn' : '']"
+          @click="selectDay(dayOption.id)"
+        >
+          <i class="fas fa-calendar"></i> Day {{ dayOption.id }}
+        </button>
+      </div>
+      <!-- Save Button -->
+      <div class="save-buttons-container" v-if="!savingId">
+        <button @click="setPresent" :disabled="savingId" class="submit-btn">Mark as Present</button>
+      </div>
+      <div class="save-buttons-container" v-else>
+        <span>Please wait...</span>
+      </div>
     </div>
 
-    <!-- Right side: Result -->
-    <div class="right-side" v-if="submitted">
-      {{ result }} is marked as present
+    <!-- Right Container: Fixed space, centered content -->
+    <div class="content-container">
+      <div class="result">{{ result }}</div>
     </div>
   </div>
 </template>
 
-<script>
-import { ref } from "vue";
+<script setup>
+import { ref } from 'vue';
+import axios from 'axios';
 
-export default {
-  setup() {
-    const input1 = ref("");
-    const input2 = ref("");
-    const result = ref("");
-    const submitted = ref(false);
+const studentIdYear = ref('');
+const studentIdNumber = ref('');
+const result = ref('');
+const savingId = ref(false);
+const selectedDay = ref(1); // Track the selected day
+const days = ref([
+  { id: 1, name: 'Day 1' },
+  { id: 2, name: 'Day 2' },
+  { id: 3, name: 'Day 3' },
+]);
 
-    const submit = () => {
-      result.value = `C-${input1.value}-${input2.value}`;
-      submitted.value = true;
-    };
+const setAuthHeader = () => {
+  axios.defaults.headers.common['Content-Type'] = 'text/plain;charset=utf-8';
+};
 
-    return { input1, input2, submit, result, submitted };
-  },
+const selectDay = (dayId) => {
+  selectedDay.value = dayId;
+};
+
+const setPresent = async () => {
+  savingId.value = true;
+  setAuthHeader();
+  let body = `studentId=C-${studentIdYear.value}-${studentIdNumber.value}&day=${selectedDay.value + 2}`;
+
+  try {
+    await axios
+      .post('https://script.google.com/macros/s/AKfycbwibs6LjDrAkm1Uta8l9X9muHocRDahcE9p5tZsuXNpfuGNdXnUcKJ1cfl_ZxEF_c2R/exec?' + body)
+      .then((res) => {
+        if (res.data != 'Student is not in the list') result.value = res.data;
+        else result.value = res.data;
+        savingId.value = false;
+      })
+      .catch((err) => {
+        savingId.value = false;
+      });
+  } catch (error) {
+    console.error('Error marking student present:', error);
+    savingId.value = false;
+  }
 };
 </script>
 
 <style scoped>
+/* Main container: Use Grid layout with two columns */
 .container {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* Left takes 1/3 of space, right takes 2/3 */
+  gap: 20px;
   padding: 20px;
+  font-family: 'Arial', sans-serif;
+  background-color: #fff; /* Soft background */
+  height: 100vh;
+  align-items: center; /* Vertically center the whole container */
 }
 
-.left-side {
-  display: flex;
-  flex-direction: column;
-  width: 40%;
+/* Left Container (Input + Submit Button) */
+.input-label {
+  margin-top: 10px;
+  display: block;
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #352011; /* Dark Brown */
 }
 
-.right-side {
+.important {
+  color: red;
+}
+
+.names-selector {
+  padding: 12px 16px;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+/* id input styling */
+.id-input-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40%;
+  gap: 12px;
 }
 
-input {
-  margin-bottom: 10px;
-  padding: 8px;
-  font-size: 14px;
+.id-label {
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-button {
-  padding: 10px;
-  background-color: #4CAF50;
-  color: white;
+.id-input-box {
+  font-size: 1.1rem;
+  padding: 14px 20px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.id-input-box:focus {
+  border-color: #f0b773; /* Golden Yellow */
+  box-shadow: 0 0 5px rgba(240, 183, 115, 0.6);
+}
+
+/* Button Containers */
+.save-buttons-container {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  border-top: 2px solid #f0b773; /* Golden Yellow */
+  padding-top: 20px;
+}
+
+.submit-btn {
+  background-color: #f0b773; /* Golden Yellow */
+  color: #352011; /* Dark Brown */
   border: none;
+  padding: 12px 24px;
+  font-size: 1.2rem;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #45a049;
+.submit-btn:hover {
+  opacity: 0.9;
+  background-color: #c8a082; /* Darker Golden Yellow */
+}
+
+.submit-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Right Container: Centered fixed space */
+.content-container {
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  background-color: #f4f4f4; /* Light background color for contrast */
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  height: 100%; /* Full height for the right container */
+}
+
+.result {
+  font-size: 1.4rem;
+  color: #4caf50; /* Green */
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Day Buttons */
+/* Day Buttons */
+.day-buttons {
+  display: flex;
+  justify-content: center; /* Center the buttons horizontally */
+  margin: 20px 0;
+  gap: 0; /* Remove any gap between the buttons */
+}
+
+.btn {
+  background-color: #e7c8b2;
+  color: #352011;
+  border: none;
+  padding: 10px 18px;
+  font-size: 1.1rem;
+  border-radius: 0; /* Remove border-radius by default */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-block; /* Ensure the buttons stick together */
+}
+
+.btn:first-child {
+  border-top-left-radius: 5px; /* Add border-radius to the left edge of the first button */
+  border-bottom-left-radius: 5px; /* Add border-radius to the left edge of the first button */
+}
+
+.btn:last-child {
+  border-top-right-radius: 5px; /* Add border-radius to the right edge of the last button */
+  border-bottom-right-radius: 5px; /* Add border-radius to the right edge of the last button */
+}
+
+.btn:hover {
+  background-color: #c8a082;
+}
+
+.selected-btn {
+  background-color: #f0b773;
+  color: white;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 768px) {
+  .container {
+    grid-template-columns: 1fr; /* Stack the left and right containers on small screens */
+    padding: 10px;
+  }
+
+  .input-container {
+    align-items: flex-start; /* Align inputs and button to the start on smaller screens */
+    gap: 10px; /* Reduce the gap between inputs and button */
+  }
+
+  .input-area {
+    flex-direction: column; /* Stack the inputs vertically */
+    gap: 5px; /* Reduced gap for vertical stacking */
+  }
+
+  .input-area label {
+    margin-right: 0;
+    margin-bottom: 5px; /* Add space below label when stacked */
+  }
+
+  .input-container button {
+    padding: 10px 20px; /* Reduce padding on smaller screens */
+  }
+
+  .content-container {
+    margin-top: 20px; /* Add margin to the content container on small screens */
+  }
+
+  .result {
+    font-size: 1rem; /* Make the result text smaller on small screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .input-container {
+    gap: 5px; /* Reduce space between elements further on extra small screens */
+  }
+
+  .input-area input {
+    width: 100%; /* Make inputs full-width on very small screens */
+  }
 }
 </style>
