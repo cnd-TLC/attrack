@@ -181,7 +181,7 @@
   const getStudents = async () => {
     loadingContents.value = true;
     students.value = [];
-    await axios.get(`https://script.google.com/macros/s/AKfycbyz9nQw-_Y55_0cFxh6EJdizqO9X3G0dXAY1OXPTv8t_zrOSvfGwLwt6NnehkUOSV-0/exec`).then((res) => {
+    await axios.get(`https://script.google.com/macros/s/AKfycbyZ1IRtTRZD3bAAxW37fJILJgVMw7Gz-BtFn3iy5CdwVNIuPEjyxaXk49-aQufIBdLW/exec`).then((res) => {
       students.value = res.data;
       loadingContents.value = false;
     });
