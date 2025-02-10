@@ -68,6 +68,7 @@
     { id: 1, name: 'Day 1' },
     { id: 2, name: 'Day 2' },
     { id: 3, name: 'Day 3' },
+    { id: 4, name: 'Day 4' },
   ]);
 
   let captureInterval = null;

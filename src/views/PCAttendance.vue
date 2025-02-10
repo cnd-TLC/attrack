@@ -18,7 +18,10 @@
           :class="['btn', selectedDay === dayOption.id ? 'selected-btn' : '']"
           @click="selectDay(dayOption.id)"
         >
-          <i class="fas fa-calendar"></i> Day {{ dayOption.id }}
+          <!-- <i class="icon fas fa-calendar"></i> -->
+          <!-- <br /> -->
+          Day {{ dayOption.id }}
+          <hr :class="['btn-line', selectedDay === dayOption.id ? 'selected-btn-line' : '']" />
         </button>
       </div>
       <!-- Save Button -->
@@ -53,6 +56,7 @@ const days = ref([
   { id: 1, name: 'Day 1' },
   { id: 2, name: 'Day 2' },
   { id: 3, name: 'Day 3' },
+  { id: 4, name: 'Day 4' },
 ]);
 
 let password = ref("goldendawn");
@@ -262,6 +266,15 @@ onMounted(() => {
   justify-content: center; /* Center the buttons horizontally */
   margin: 20px 0;
   gap: 0; /* Remove any gap between the buttons */
+}
+
+.btn-line {
+  border: 1px solid #352011;
+}
+
+.selected-btn-line {
+  background-color: #f0b773;
+  border: 1px solid white;
 }
 
 .btn {
