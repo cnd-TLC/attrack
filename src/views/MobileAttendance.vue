@@ -48,7 +48,7 @@
       </div>
 
       <div class="buttons">
-        <button @click="snapImage" class="btn start-btn">
+        <button @click="captureImage" class="btn start-btn">
           Capture
         </button>
         <button @click="stopAutoCapture" v-if="isCapturing" class="btn stop-btn">
@@ -135,19 +135,6 @@
 
   const setAuthHeader = () => {
     axios.defaults.headers.common['Content-Type'] = 'text/plain;charset=utf-8';
-  };
-
-  const snapImage = () => {
-    const video = videoElement.value;
-    const canvas = canvasElement.value;
-    const context = canvas.getContext('2d');
-    
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-    
-    const image = canvas.toDataURL();
-    extractTextFromImage(image);
   };
 
   // Capture image every second
