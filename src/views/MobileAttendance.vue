@@ -186,7 +186,13 @@
     const g = imageData.data[i + 1];
     const b = imageData.data[i + 2];
     const gray = 0.3 * r + 0.59 * g + 0.11 * b;
-    imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = gray > 128 ? 255 : 0;
+    // imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = gray > 128 ? 255 : 0;
+
+    // Blend original color with grayscale (adjust the 0.5 value to control the effect)
+    const blendFactor = 0.3; // Adjust this to keep more color (0 = full grayscale, 1 = full color)
+    imageData.data[i] = blendFactor * r + (1 - blendFactor) * gray; // Red
+    imageData.data[i + 1] = blendFactor * g + (1 - blendFactor) * gray; // Green
+    imageData.data[i + 2] = blendFactor * b + (1 - blendFactor) * gray; // Blue
   }
 
   // yellow image
