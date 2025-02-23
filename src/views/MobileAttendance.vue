@@ -190,6 +190,7 @@
   // }
 
   // yellow image
+  const data = imageData.data;
   for (let i = 0; i < data.length; i += 4) {
     const r = data[i];     // Red
     const g = data[i + 1]; // Green
