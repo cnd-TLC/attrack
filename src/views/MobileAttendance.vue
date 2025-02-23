@@ -1,6 +1,6 @@
 <template>
   <div class="center">
-    <button class="floating-btn" @click="goToHome">🏠︎</button>
+    <button v-if="!captureRendering" class="floating-btn" @click="goToHome">🏠︎</button>
 
     <!-- Logo -->
     <div v-if="captureRendering" class="logo-overlay">
@@ -238,28 +238,16 @@
     try {
       await axios.post('https://script.google.com/macros/s/AKfycbzdztk0YqGT6ID7kpwt4A25GtYKcCdx6BVd5KdbCXMw9b-rHtTJwWitVkHm0WPZJni9/exec?' + body)
         .then((res) => {
-          if(res.data != "Student is not in the list" && res.data != "Student is already present")
+          if(res.data != "Student is not in the list")
             Swal.fire({
               title: "Present!",
               text: res.data,
               icon: "success"
             });
-          else if(res.data == "Student is not in the list")
-            Swal.fire({
-              title: "Oops...",
-              text: res.data,
-              icon: "warning"
-            });
-          else if(res.data == "Student is already present")
-            Swal.fire({
-              title: "Oops...",
-              text: res.data,
-              icon: "warning"
-            });
           else
             Swal.fire({
               title: "Oops...",
-              text: "Something went wrong, try again",
+              text: res.data,
               icon: "error"
             });
           captureRendering.value = false;
@@ -294,11 +282,6 @@
     }
     else{
       captureRendering.value = false
-      Swal.fire({
-        title: "Oops...",
-        text: "Something went wrong, try again",
-        icon: "error"
-      });
       console.log("No ID matched")
     }
   };
