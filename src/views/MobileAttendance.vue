@@ -165,10 +165,11 @@
   canvas.height = video.videoHeight;
 
   // Get the center rectangle dimensions
-  const rectWidth = canvas.width * 0.5;
-  const rectHeight = canvas.height * 0.1;
-  const rectX = (canvas.width - rectWidth) / 2;
-  const rectY = (canvas.height - rectHeight) / 2;
+  const rectWidth = canvas.width * 0.5;  
+  const rectHeight = canvas.height * 0.1;  
+  const rectX = (canvas.width - rectWidth) / 2;  
+  const rectY = (canvas.height - rectHeight) / 2 - (canvas.height * 0.1); // Move 10% higher  
+
 
   // Draw only the center rectangle on a temporary canvas
   const tempCanvas = document.createElement('canvas');
