@@ -51,12 +51,6 @@
         <button @click="captureImage" class="btn start-btn">
           Capture
         </button>
-        <button @click="stopAutoCapture" v-if="isCapturing" class="btn stop-btn">
-          <i class="fas fa-stop-circle"></i> Stop Auto Capture
-        </button>
-        <button @click="startAutoCapture" v-else class="btn start-btn">
-          <i class="fas fa-play-circle"></i> Start Auto Capture
-        </button>
       </div>
     </div>
   </div>
@@ -138,25 +132,25 @@
   };
 
   // Capture image every second
-  const startAutoCapture = () => {
-    if (!captureInterval) {
-      extracting.value = true
-      isCapturing.value = true;
-      captureInterval = setInterval(() => {
-        captureImage();
-      }, 1000); // Capture every second
-    }
-  };
+  // const startAutoCapture = () => {
+  //   if (!captureInterval) {
+  //     extracting.value = true
+  //     isCapturing.value = true;
+  //     captureInterval = setInterval(() => {
+  //       captureImage();
+  //     }, 1000); // Capture every second
+  //   }
+  // };
 
-  // Stop auto capture
-  const stopAutoCapture = () => {
-    if (captureInterval) {
-      extracting.value = false;
-      isCapturing.value = false;
-      clearInterval(captureInterval);
-      captureInterval = null;
-    }
-  };
+  // // Stop auto capture
+  // const stopAutoCapture = () => {
+  //   if (captureInterval) {
+  //     extracting.value = false;
+  //     isCapturing.value = false;
+  //     clearInterval(captureInterval);
+  //     captureInterval = null;
+  //   }
+  // };
 
   // Capture image from video and process it
   const captureImage = () => {
@@ -244,11 +238,23 @@
     try {
       await axios.post('https://script.google.com/macros/s/AKfycbzdztk0YqGT6ID7kpwt4A25GtYKcCdx6BVd5KdbCXMw9b-rHtTJwWitVkHm0WPZJni9/exec?' + body)
         .then((res) => {
-          if(res.data != "Student is not in the list")
+          if(res.data != "Student is not in the list" && res.data != "Student is already present")
             Swal.fire({
               title: "Present!",
               text: res.data,
               icon: "success"
+            });
+          else if(res.data == "Student is not in the list")
+            Swal.fire({
+              title: "Oops...",
+              text: res.data,
+              icon: "warning"
+            });
+          else if(res.data == "Student is already present")
+            Swal.fire({
+              title: "Oops...",
+              text: res.data,
+              icon: "warning"
             });
           else
             Swal.fire({
@@ -288,6 +294,11 @@
     }
     else{
       captureRendering.value = false
+      Swal.fire({
+        title: "Oops...",
+        text: "Something went wrong, try again",
+        icon: "error"
+      });
       console.log("No ID matched")
     }
   };
