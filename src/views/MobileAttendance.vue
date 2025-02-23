@@ -116,8 +116,8 @@
 
     navigator.mediaDevices.getUserMedia({ video: {
         facingMode: "environment",
-        // width: 720, // Increase resolution for better quality
-        // height: 1280
+          width: 720, // Increase resolution for better quality
+          height: 1280
       } })
       .then((stream) => {
         video.srcObject = stream;
