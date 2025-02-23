@@ -193,6 +193,12 @@
 
   // Convert to base64 image and extract text using OCR
   const image = tempCanvas.toDataURL();
+  const link = document.createElement("a");
+  link.href = image;
+  link.download = "captured_image.png";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
   extractTextFromImage(image);
 };
 
