@@ -279,7 +279,9 @@
 
   // Extract ID number from OCR text
   const extractIDNumber = (text) => {
-    alert('sad')
+    // updated capture rendering
+    captureRendering.value = true
+    alert(extracting.value)
     const matches = text.match(/C-(\d{4})-(\d{4})/);
     if (matches && extracting.value){
       alert('match')
@@ -287,6 +289,7 @@
     }
     else{
       alert('nomatch')
+      captureRendering.value = false
       console.log("No ID matched")
     }
   };
