@@ -162,7 +162,7 @@
   const captureImage = () => {
     // updated capture rendering
     captureRendering.value = true
-    
+
     const video = videoElement.value;
     const canvas = canvasElement.value;
     const context = canvas.getContext('2d');
@@ -242,7 +242,7 @@
     captureRendering.value = true
 
     try {
-      await axios.post('https://script.google.com/macros/s/AKfycbzdztk0YqGT6ID7kpwt4A25GtYKcCdx6BVd5KdbCXMw9b-rHtTJwWitVkHm0WPZJni9/exec' + body)
+      await axios.post('https://script.google.com/macros/s/AKfycbzdztk0YqGT6ID7kpwt4A25GtYKcCdx6BVd5KdbCXMw9b-rHtTJwWitVkHm0WPZJni9/exec?' + body)
         .then((res) => {
           if(res.data != "Student is not in the list")
             Swal.fire({
@@ -282,14 +282,11 @@
 
   // Extract ID number from OCR text
   const extractIDNumber = (text) => {
-    alert(text)
     const matches = text.match(/C-(\d{4})-(\d{4})/);
     if (matches && extracting.value){
-      alert('match')
       setPresent(`studentId=${matches[0]}&day=${selectedDay.value + 2}&merdiem=${selectedMerdiem.value}`);
     }
     else{
-      alert('nomatch')
       captureRendering.value = false
       console.log("No ID matched")
     }
