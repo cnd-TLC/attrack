@@ -76,7 +76,7 @@
   const selectedDay = ref(1); // Track the selected day
   const selectedMerdiem = ref(0); // Track the selected merdiem
 
-  const extracting = ref(false);
+  const extracting = ref(true);
   const captureRendering = ref(false);
 
   const days = ref([
