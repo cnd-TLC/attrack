@@ -266,7 +266,6 @@
 
   // Process image using OCR (Tesseract.js)
   const extractTextFromImage = async (image) => {
-    alert('asd');
     try {
       const { data: { text } } = await Tesseract.recognize(image, 'eng', {
         logger: (m) => console.log(m),
@@ -280,11 +279,16 @@
 
   // Extract ID number from OCR text
   const extractIDNumber = (text) => {
+    alert('sad')
     const matches = text.match(/C-(\d{4})-(\d{4})/);
-    if (matches && extracting.value)
+    if (matches && extracting.value){
+      alert('match')
       setPresent(`studentId=${matches[0]}&day=${selectedDay.value + 2}&merdiem=${selectedMerdiem.value}`);
-    else
+    }
+    else{
+      alert('nomatch')
       console.log("No ID matched")
+    }
   };
 
   // Change selected day
