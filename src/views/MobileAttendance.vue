@@ -277,6 +277,7 @@
   // Extract ID number from OCR text
   const extractIDNumber = (text) => {
     const matches = text.match(/C-(\d{4})-(\d{4})/);
+    console.log(text)
     if (matches && extracting.value){
       setPresent(`studentId=${matches[0]}&day=${selectedDay.value + 2}&merdiem=${selectedMerdiem.value}`);
     }
