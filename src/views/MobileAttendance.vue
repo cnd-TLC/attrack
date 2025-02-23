@@ -189,6 +189,23 @@
   //   imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = gray > 128 ? 255 : 0;
   // }
 
+  // yellow image
+  for (let i = 0; i < data.length; i += 4) {
+    const r = data[i];     // Red
+    const g = data[i + 1]; // Green
+    const b = data[i + 2]; // Blue
+
+    // Detect yellow tones: High Red & Green, Low Blue
+    if (r > 150 && g > 150 && b < 100) {
+      // Keep yellow pixels
+    } else {
+      // Turn non-yellow pixels to white (or transparent)
+      data[i] = 255;   // Red
+      data[i + 1] = 255; // Green
+      data[i + 2] = 255; // Blue
+    }
+  }
+
   tempContext.putImageData(imageData, 0, 0);
 
   // Convert to base64 image and extract text using OCR
