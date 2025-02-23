@@ -160,6 +160,9 @@
 
   // Capture image from video and process it
   const captureImage = () => {
+    // updated capture rendering
+    captureRendering.value = true
+    
     const video = videoElement.value;
     const canvas = canvasElement.value;
     const context = canvas.getContext('2d');
@@ -279,9 +282,7 @@
 
   // Extract ID number from OCR text
   const extractIDNumber = (text) => {
-    // updated capture rendering
-    captureRendering.value = true
-    alert(extracting.value)
+    alert(text)
     const matches = text.match(/C-(\d{4})-(\d{4})/);
     if (matches && extracting.value){
       alert('match')
