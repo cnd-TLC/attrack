@@ -20,7 +20,7 @@
       </div>
       
     </div>
-    <canvas ref="canvasElement" style="display: none;"></canvas>
+    <canvas class="video-container" ref="canvasElement" style="display: none;"></canvas>
 
     <!-- Capture Info and Buttons -->
     <div class="capture-info">
