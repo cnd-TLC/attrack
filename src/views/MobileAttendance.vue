@@ -181,13 +181,13 @@
 
   // Convert the cropped image to grayscale and apply thresholding for better OCR accuracy
   const imageData = tempContext.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
-  // for (let i = 0; i < imageData.data.length; i += 4) {
-  //   const r = imageData.data[i];
-  //   const g = imageData.data[i + 1];
-  //   const b = imageData.data[i + 2];
-  //   const gray = 0.3 * r + 0.59 * g + 0.11 * b;
-  //   imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = gray > 128 ? 255 : 0;
-  // }
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    const r = imageData.data[i];
+    const g = imageData.data[i + 1];
+    const b = imageData.data[i + 2];
+    const gray = 0.3 * r + 0.59 * g + 0.11 * b;
+    imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = gray > 128 ? 255 : 0;
+  }
 
   // yellow image
   // const data = imageData.data;
