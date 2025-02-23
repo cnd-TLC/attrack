@@ -266,6 +266,7 @@
 
   // Process image using OCR (Tesseract.js)
   const extractTextFromImage = async (image) => {
+    alert('asd');
     try {
       const { data: { text } } = await Tesseract.recognize(image, 'eng', {
         logger: (m) => console.log(m),
