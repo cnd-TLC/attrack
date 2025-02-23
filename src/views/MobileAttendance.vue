@@ -248,7 +248,7 @@
             Swal.fire({
               title: "Oops...",
               text: res.data,
-              icon: "error"
+              icon: "warning"
             });
           captureRendering.value = false;
         })
@@ -282,6 +282,11 @@
     }
     else{
       captureRendering.value = false
+      Swal.fire({
+        title: "Oops...",
+        text: "Something went wrong, please try again",
+        icon: "error"
+      });
       console.log("No ID matched")
     }
   };
