@@ -232,7 +232,7 @@
 
   const setPresent = async (body) => {
     setAuthHeader();
-    stopAutoCapture();
+    // stopAutoCapture();
     captureRendering.value = true
 
     try {
