@@ -48,7 +48,7 @@
       </div>
 
       <div class="buttons">
-        <button @click="captureImage" class="btn start-btn">
+        <button @click="snapImage" class="btn start-btn">
           Capture
         </button>
         <button @click="stopAutoCapture" v-if="isCapturing" class="btn stop-btn">
@@ -137,7 +137,7 @@
     axios.defaults.headers.common['Content-Type'] = 'text/plain;charset=utf-8';
   };
 
-  const captureImage = () => {
+  const snapImage = () => {
     const video = videoElement.value;
     const canvas = canvasElement.value;
     const context = canvas.getContext('2d');
