@@ -36,7 +36,21 @@
         </button>
       </div>
 
+      <div class="day-buttons">
+        <button
+          v-for="merdiemOption in merdiems"
+          :key="merdiemOption.id"
+          :class="['btn', selectedMerdiem === merdiemOption.id ? 'selected-btn' : '']"
+          @click="selectMerdiem(merdiemOption.id)"
+        >
+          <i class="fas fa-calendar"></i> {{ merdiemOption.name }}
+        </button>
+      </div>
+
       <div class="buttons">
+        <button @click="captureImage" class="btn start-btn">
+          Capture
+        </button>
         <button @click="stopAutoCapture" v-if="isCapturing" class="btn stop-btn">
           <i class="fas fa-stop-circle"></i> Stop Auto Capture
         </button>
@@ -60,6 +74,7 @@
   const idNumber = ref("No ID found");
   const isCapturing = ref(false);
   const selectedDay = ref(1); // Track the selected day
+  const selectedMerdiem = ref(0); // Track the selected merdiem
 
   const extracting = ref(false);
   const captureRendering = ref(false);
@@ -69,6 +84,11 @@
     { id: 2, name: 'Day 2' },
     { id: 3, name: 'Day 3' },
     { id: 4, name: 'Day 4' },
+  ]);
+
+  const merdiems = ref([
+    { id: 0, name: 'AM' },
+    { id: 7, name: 'PM' },
   ]);
 
   let captureInterval = null;
@@ -115,6 +135,19 @@
 
   const setAuthHeader = () => {
     axios.defaults.headers.common['Content-Type'] = 'text/plain;charset=utf-8';
+  };
+
+  const captureImage = () => {
+    const video = videoElement.value;
+    const canvas = canvasElement.value;
+    const context = canvas.getContext('2d');
+    
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    
+    const image = canvas.toDataURL();
+    extractTextFromImage(image);
   };
 
   // Capture image every second
@@ -219,7 +252,7 @@
     captureRendering.value = true
 
     try {
-      await axios.post('https://script.google.com/macros/s/AKfycbwibs6LjDrAkm1Uta8l9X9muHocRDahcE9p5tZsuXNpfuGNdXnUcKJ1cfl_ZxEF_c2R/exec?' + body)
+      await axios.post('https://script.google.com/macros/s/AKfycbzdztk0YqGT6ID7kpwt4A25GtYKcCdx6BVd5KdbCXMw9b-rHtTJwWitVkHm0WPZJni9/exec' + body)
         .then((res) => {
           if(res.data != "Student is not in the list")
             Swal.fire({
@@ -261,7 +294,7 @@
   const extractIDNumber = (text) => {
     const matches = text.match(/C-(\d{4})-(\d{4})/);
     if (matches && extracting.value)
-      setPresent(`studentId=${matches[0]}&day=${selectedDay.value + 2}`);
+      setPresent(`studentId=${matches[0]}&day=${selectedDay.value + 2}&merdiem=${selectedMerdiem.value}`);
     else
       console.log("No ID matched")
   };
@@ -269,6 +302,10 @@
   // Change selected day
   const selectDay = (dayId) => {
     selectedDay.value = dayId;
+  };
+
+  const selectMerdiem = (merdiemId) => {
+    selectedMerdiem.value = merdiemId;
   };
 
   // Cleanup when the component is unmounted

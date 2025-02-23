@@ -24,6 +24,17 @@
           <hr :class="['btn-line', selectedDay === dayOption.id ? 'selected-btn-line' : '']" />
         </button>
       </div>
+
+      <div class="day-buttons">
+        <button
+          v-for="merdiemOption in merdiems"
+          :key="merdiemOption.id"
+          :class="['btn', selectedMerdiem === merdiemOption.id ? 'selected-btn' : '']"
+          @click="selectMerdiem(merdiemOption.id)"
+        >
+          <i class="fas fa-calendar"></i> {{ merdiemOption.name }}
+        </button>
+      </div>
       <!-- Save Button -->
       <div class="save-buttons-container" v-if="!savingId">
         <button @click="setPresent" :disabled="savingId" class="submit-btn">Mark as Present</button>
@@ -52,11 +63,18 @@ const studentIdNumber = ref('');
 const result = ref('');
 const savingId = ref(false);
 const selectedDay = ref(1); // Track the selected day
+const selectedMerdiem = ref(0); // Track the selected merdiem
+
 const days = ref([
   { id: 1, name: 'Day 1' },
   { id: 2, name: 'Day 2' },
   { id: 3, name: 'Day 3' },
   { id: 4, name: 'Day 4' },
+]);
+
+const merdiems = ref([
+  { id: 0, name: 'AM' },
+  { id: 7, name: 'PM' },
 ]);
 
 let password = ref("goldendawn");
@@ -89,14 +107,18 @@ const selectDay = (dayId) => {
   selectedDay.value = dayId;
 };
 
+const selectMerdiem = (merdiemId) => {
+  selectedMerdiem.value = merdiemId;
+};
+
 const setPresent = async () => {
   savingId.value = true;
   setAuthHeader();
-  let body = `studentId=C-${studentIdYear.value}-${studentIdNumber.value}&day=${selectedDay.value + 2}`;
+  let body = `studentId=C-${studentIdYear.value}-${studentIdNumber.value}&day=${selectedDay.value + 2}&merdiem=${selectedMerdiem.value}`;
 
   try {
     await axios
-      .post('https://script.google.com/macros/s/AKfycbwibs6LjDrAkm1Uta8l9X9muHocRDahcE9p5tZsuXNpfuGNdXnUcKJ1cfl_ZxEF_c2R/exec?' + body)
+      .post('https://script.google.com/macros/s/AKfycbzdztk0YqGT6ID7kpwt4A25GtYKcCdx6BVd5KdbCXMw9b-rHtTJwWitVkHm0WPZJni9/exec?' + body)
       .then((res) => {
         if (res.data != 'Student is not in the list') result.value = res.data;
         else result.value = res.data;
