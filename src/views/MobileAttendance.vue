@@ -154,43 +154,48 @@
 
   // Capture image from video and process it
   const captureImage = () => {
-    // updated capture rendering
-    captureRendering.value = true
+  captureRendering.value = true;
 
-    const video = videoElement.value;
-    const canvas = canvasElement.value;
-    const context = canvas.getContext('2d');
+  const video = videoElement.value;
+  const canvas = canvasElement.value;
+  const context = canvas.getContext('2d');
 
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+  // Set canvas size to match video
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
 
-    // Apply grayscale effect to the image for better OCR accuracy
-    const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    for (let i = 0; i < imageData.data.length; i += 4) {
-      const r = imageData.data[i];
-      const g = imageData.data[i + 1];
-      const b = imageData.data[i + 2];
-      const gray = 0.3 * r + 0.59 * g + 0.11 * b;
-      imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = gray;
-    }
+  // Get the center rectangle dimensions
+  const rectWidth = canvas.width * 0.5;
+  const rectHeight = canvas.height * 0.1;
+  const rectX = (canvas.width - rectWidth) / 2;
+  const rectY = (canvas.height - rectHeight) / 2;
 
-    // Apply adaptive thresholding (making text more distinct)
-    for (let i = 0; i < imageData.data.length; i += 4) {
-      const gray = imageData.data[i];
-      const threshold = 128;  // Adjust threshold value if needed
-      const color = gray > threshold ? 255 : 0; // If grayscale value > threshold, make it white, else black
-      imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = color;
-    }
+  // Draw only the center rectangle on a temporary canvas
+  const tempCanvas = document.createElement('canvas');
+  const tempContext = tempCanvas.getContext('2d');
 
-    sharpenImage(imageData);
+  tempCanvas.width = rectWidth;
+  tempCanvas.height = rectHeight;
+  
+  tempContext.drawImage(video, rectX, rectY, rectWidth, rectHeight, 0, 0, rectWidth, rectHeight);
 
-    context.putImageData(imageData, 0, 0);
+  // Convert the cropped image to grayscale and apply thresholding for better OCR accuracy
+  const imageData = tempContext.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    const r = imageData.data[i];
+    const g = imageData.data[i + 1];
+    const b = imageData.data[i + 2];
+    const gray = 0.3 * r + 0.59 * g + 0.11 * b;
+    imageData.data[i] = imageData.data[i + 1] = imageData.data[i + 2] = gray > 128 ? 255 : 0;
+  }
 
-    // Now process the captured image using Tesseract.js
-    const image = canvas.toDataURL();
-    extractTextFromImage(image);
-  };
+  tempContext.putImageData(imageData, 0, 0);
+
+  // Convert to base64 image and extract text using OCR
+  const image = tempCanvas.toDataURL();
+  extractTextFromImage(image);
+};
+
 
   const sharpenImage = (imageData) => {
     const width = imageData.width;
@@ -419,7 +424,7 @@
   top: 40%;
   left: 50%;
   width: 50%;
-  height: 65%;
+  height: 10% !important;
   transform: translate(-50%, -50%);
   border-radius: 5px;
   background-color: rgba(255, 255, 255, 0.1);
